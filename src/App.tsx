@@ -41,11 +41,16 @@
 import react, { useState } from 'react'
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import { Button } from 'antd'
+import { useSelector, useDispatch } from 'react-redux';
+import { increment } from './features/counter/counterSlice';
 import Home from './pages/Home';
 import About from './pages/About';
+import type { RootState, AppDispatch } from './app/store';
 
 function App() {
-  const [count, setCount] = useState(0)
+  // const [count, setCount] = useState(0)
+  const count = useSelector((state: RootState) => state.counter.value);
+  const dispatch = useDispatch<AppDispatch>();
 
   return (
     <Router>
@@ -57,14 +62,13 @@ function App() {
 
       <Routes>
         <Route path="/" element={
-          // 原JSX内容包裹在Fragment中作为首页
           <>
-            {/* 原有代码保持不变... */}
             <div>
-              <Button type="primary">Ant Design Button</Button>
-              {/* 原有logo和按钮代码... */}
+              <Button type="primary" onClick={() => dispatch(increment())}>
+                Count: {count}
+              </Button>
+              {/* 其他现有元素... */}
             </div>
-            {/* 其他现有元素... */}
           </>
         } />
         <Route path="/about" element={<About />} />
