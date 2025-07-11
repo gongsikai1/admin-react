@@ -6,13 +6,8 @@ const isProd = import.meta.env.PROD
 const hostname = location.hostname;
 const port = 3003;
 
-const [messageApi, contextHolder] = message.useMessage();
-
 const messageError = (content: string) => {
-    messageApi.open({
-        type: 'error',
-        content,
-    });
+    message.error(content); // 使用全局方法
 };
 
 axios.interceptors.request.use(function (response) {
